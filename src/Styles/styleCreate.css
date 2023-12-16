@@ -1,0 +1,35 @@
+label {
+  font-family: "Roboto", sans-serif;
+}
+.Dialog1 {
+  width: 35%;
+}
+
+.radio-flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio-flexbox .p-radiobutton {
+  margin-right: 0.5rem;
+}
+
+.radio-flexbox label {
+  font-size: 0.8rem;
+}
+@media (min-width: 850px) and (max-width: 1150px) {
+  .Dialog1 {
+    width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  .Dialog1 {
+    width: 100%;
+  }
+
+  element.style {
+    width: 80%;
+  }
+}

@@ -1,0 +1,16 @@
+
+.header
+{
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+.p-menubar {
+  display: flex;
+  justify-content: center;
+}
+.p-menuitem
+{
+  margin: 10px;
+}

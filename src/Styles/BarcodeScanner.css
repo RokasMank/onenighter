@@ -1,0 +1,13 @@
+#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-stop, #html5-qrcode-button-camera-start
+{
+    padding: 6px;
+    background-color:#1976d2;
+    border: 0px;
+    border-radius: 4px;
+    color: white;
+}
+#html5-qrcode-anchor-scan-type-change, #html5-qrcode-anchor-scan-type-change, #reader__header_message{
+    
+}
+.html5-qrcode-element{
+}

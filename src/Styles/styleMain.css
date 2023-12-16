@@ -1,0 +1,77 @@
+.buttons {
+  float: left;
+  max-width: 200px;
+  width: auto;
+  margin: 0 2rem;
+}
+#fridge{
+  width: 60%;
+  margin: 2rem auto;
+  border-radius: 4px;
+  box-shadow: 0 0 9px black;
+  background-color: white;
+}
+
+#shelf-box{
+  float: right;
+  margin: 0 2rem;
+}
+
+#shelf-list-button{
+  background-color:#4b00e9;
+  border:none;
+  white-space:normal;
+  overflow-wrap:break-word;
+  width:12rem;
+  word-break:break-all;
+}
+
+.product-card{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  column-gap: 10rem;
+}
+
+.p-card div, p{
+text-align: left;
+}
+
+#product-image:hover{
+  cursor:pointer; 
+}
+
+@media (max-width: 1500px) {
+  #shelf-box{
+  float: none;
+  margin: 0;
+  }
+  #button-container{
+    float: none;
+    display: flex;
+    justify-content: center;
+  }
+  .buttons{
+    margin-top: 1rem;
+  }
+  #fridge{
+    margin: 0 auto;
+  }
+}
+
+@media (max-width:1800px){
+  .product-card{
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media (max-width:1024px){
+  .product-card{
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width:600px){
+  .product-card{
+    grid-template-columns: auto;
+  }
+}
