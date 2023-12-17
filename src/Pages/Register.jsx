@@ -45,7 +45,7 @@ function Register() {
                 navigateToMain();
             }
             else{
-                window.alert("Couldn't log you in")
+                window.alert("Registration was not succesfull")
             }
         });
     }

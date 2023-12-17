@@ -46,7 +46,7 @@ function AppMenu() {
     navigator("/main");
   };
   const navigateToChatPage = () => {
-    navigator("/chat");
+    navigator("/group");
   };
   const navigateToRegister = () => {
     navigator("/register");
@@ -165,11 +165,11 @@ function AppMenu() {
               </Button>
               {sessionStorage.getItem(User.userEmail) !== null 
               ? <Button
-              key={"Chats"}
+              key={"Groups"}
               onClick={navigateToChatPage}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-                {"Chats"}
+                {"Groups"}
             </Button>
             : <></>}
              

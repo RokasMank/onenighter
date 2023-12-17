@@ -35,6 +35,8 @@ function Login() {
             if (result !== null){
                 sessionStorage.setItem(User.userEmail, email);
                 sessionStorage.setItem(User.userID, result.id);
+                sessionStorage.setItem(User.accessToken, result.accessToken);
+                sessionStorage.setItem(User.refreshToken, result.refreshToken)
                 navigateToMain();
             }
             else{

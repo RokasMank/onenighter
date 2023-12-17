@@ -17,9 +17,10 @@ import {
 } from "@mui/material";
 import { getThemes } from "../Utils/theme-axios";
 import { getUsers } from "../Utils/user-axios-utils";
-
-export const CreateGroup = ({ open, onClose, onSubmit }) => {
-  const [email, setGroupName] = useState("");
+import { createGroup } from "../Utils/group-axios";
+import { User } from "../User/User";
+export const CreateGroup = ({ open, onClose }) => {
+  const [groupName, setGroupName] = useState("");
   const [selectedTheme, setSelectedTheme] = useState('');
   const [themesArray, setThemesArray] = useState([]);
   const [usersArray, setUsersArray] = useState([]);
@@ -53,11 +54,28 @@ export const CreateGroup = ({ open, onClose, onSubmit }) => {
     onClose();
   };
 
-  const handleSubmit = () => {
-    // You can perform any necessary validation here before submitting
-    onSubmit({ email, selectedTheme, selectedUsers });
-    handleClose();
+  const handleSubmit = async () => {
+    try {
+      // Perform your HTTP request here
+      const group ={
+        "GroupName": groupName,
+        "ThemeId":selectedTheme,
+        "CreatorId": sessionStorage.getItem(User.userID),
+        "UserIds": selectedUsers.map((user) => user.id)
+    };
+
+    console.log(group)
+      const response = await createGroup(group)
+  
+      // Add any additional logic you need after a successful submit
+      handleClose();
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      // Handle error scenarios here
+      // You might want to display an error message to the user
+    }
   };
+  
 
   useEffect(() => {
     const fetchUsers = async () => {

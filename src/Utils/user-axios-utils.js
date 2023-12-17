@@ -17,7 +17,7 @@ export const loginUser = async (body) => {
 
 export const registerUser = async (body) => {
   try {
-    const response = await client.post(`register`, { ...body });
+    const response = await client.post(``, { ...body });
     return response.data;
   } catch (err) {
     console.log(err.message);
