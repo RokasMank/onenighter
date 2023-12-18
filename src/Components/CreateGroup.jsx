@@ -17,9 +17,29 @@ import {
 } from "@mui/material";
 import { getThemes } from "../Utils/theme-axios";
 import { getUsers } from "../Utils/user-axios-utils";
-import { createGroup } from "../Utils/group-axios";
+import groupClient from "../Utils/group-axios";
 import { User } from "../User/User";
+
+const currentUserId = sessionStorage.getItem(User.userID);
+
 export const CreateGroup = ({ open, onClose }) => {
+
+  const createGroup = async (group) => {
+    try {
+      const client = groupClient();
+      const response = await client.post(``, { ...group });
+  
+      // Assuming your API responds with the created group data
+      const data = response.data;
+  
+      return data;
+    } catch (error) {
+      console.error("Error creating group:", error);
+  
+      throw new Error(`Error creating group: ${error.message}`);
+    }
+  };
+  
   const [groupName, setGroupName] = useState("");
   const [selectedTheme, setSelectedTheme] = useState('');
   const [themesArray, setThemesArray] = useState([]);
@@ -82,7 +102,9 @@ export const CreateGroup = ({ open, onClose }) => {
       try {
         const response = await getUsers();
         if (response !== null) {
-          const users = response.map((user) => ({
+          const users = response
+          .filter(user => user.id !== currentUserId)
+          .map((user) => ({
             id: user.id,
             name: user.name,
             email: user.email,

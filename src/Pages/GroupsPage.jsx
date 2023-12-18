@@ -1,12 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, List, ListItem, Button } from '@mui/material';
 import { CreateGroup } from '../Components/CreateGroup';
-import { getUserGroups } from '../Utils/group-axios';
+import  groupClient  from '../Utils/group-axios';
 import { User } from '../User/User';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 const GroupsPage = () => {
+
+   const getUserGroups = async (userId) => {
+    try {
+      const client = groupClient();
+      const response = await client.get(`${userId}`);
+  
+      // Assuming your API responds with the created group data
+      const data = response.data;
+  
+      return data;
+    } catch (error) {
+      console.error("Error getting groups:", error);
+  
+      throw new Error(`Error getting groups: ${error.message}`);
+    }
+  };
+  
+
   const theme = useTheme();
   const navigator = useNavigate();
 
@@ -23,13 +41,12 @@ const GroupsPage = () => {
         console.log(response);
         if (response.length > 0) {
           setGroups(response);
-          setLoading(false); // Set loading to false when data is available
-
         }
       } catch (error) {
         console.error("Error fetching user groups:", error);
-        setLoading(false); // Set loading to false on error as well
         // Handle error scenarios here
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or error
       }
     };
 

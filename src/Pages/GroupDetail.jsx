@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, TextField, Button, Paper, Box, useMediaQuery, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { sendMessage } from '../Utils/message-axios';
-import { getMessages } from '../Utils/group-axios';
+
 import { User } from '../User/User';
+import { AddMember } from '../Components/AddMember';
+import groupClient from '../Utils/group-axios';
 
 const GroupDetail = () => {
   const theme = useTheme();
@@ -14,8 +16,30 @@ const GroupDetail = () => {
 
   const [newMessage, setNewMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  console.log(selectedGroup)
   const messagesContainerRef = useRef(null);
 
+  const getMessages = async (id) => {
+    try {
+      const client = groupClient();
+      const response = await client.get(`messages/${id}`);
+  
+      // Log the API response
+      console.log('API response:', response.data);
+  
+      // Assuming your API responds with the created group data
+      const data = response.data;
+  
+      // Log the updated state
+      console.log('Updated messages state:', data);
+  
+      return data;
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      throw new Error(`Error fetching messages: ${error.message}`);
+    }
+  }
   useEffect(() => {
     const fetchGroupMessages = async (groupId) => {
       try {
@@ -32,9 +56,12 @@ const GroupDetail = () => {
     fetchGroupMessages(selectedGroup.id);
   }, [selectedGroup.id]);
 
-  const handleEditClick = async () =>{
-
+  const handleAddClick = async () =>{
+    setOpenDialog(true);
   }
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   const handleSendMessage = async () => {
     try {
       const message = {
@@ -46,6 +73,7 @@ const GroupDetail = () => {
       const response = await sendMessage(message);
       setMessages([...messages, response]); // Update messages with the new message
       setNewMessage(''); // Clear the input field
+      console.log(response)
       scrollMessagesToBottom();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -64,16 +92,20 @@ const GroupDetail = () => {
 
   return (
     <Container>
-      <Typography variant="h4" style={{ display: 'inline' }}>{selectedGroup.groupName}</Typography>
-    <Typography variant="subtitle1" style={{ display: 'inline', marginLeft: '10px' }}>Theme: {selectedGroup.theme.name}</Typography>
-    <Button
+<div style={{ display: 'flex', marginTop:'5px', marginBottom: '10px' }}>
+  <Typography variant="h6" style={{ marginRight: '10px' }}>{selectedGroup.groupName}</Typography>
+  <Typography variant="h6">{selectedGroup.theme.name}</Typography>
+  <Button
     variant="outlined"
     color="primary"
-    style={{ marginLeft: 'auto' }}  // Add this line
-    onClick={handleEditClick}
-    >
-    Add
-    </Button>
+    style={{ marginLeft: 'auto' }}
+    onClick={handleAddClick}
+  >
+    Add members
+  </Button>
+</div>
+
+
       <Box
         style={{
           position: 'fixed',
@@ -86,7 +118,6 @@ const GroupDetail = () => {
           boxSizing: 'border-box',
         }}
       >
-        <Typography variant="h6">Messages:</Typography>
         <div
           ref={messagesContainerRef}
           style={{
@@ -113,11 +144,19 @@ const GroupDetail = () => {
           label="Type your message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault(); // Prevents the newline character
+              handleSendMessage();
+            }
+          }}
         />
         <Button variant="contained" color="primary" onClick={handleSendMessage} style={{ marginTop: '10px' }}>
-          Send
+         Send
         </Button>
       </Box>
+      <AddMember group={selectedGroup} open={openDialog} onClose={handleCloseDialog}/>
+
     </Container>
   );
 };
