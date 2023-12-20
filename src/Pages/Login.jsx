@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 function Login() {
 
     const navigator = useNavigate();
-    const navigateToMain = () => {
+    const navigateToLandingPage = () => {
       navigator("/");
     };
     const [email, setEmail] = useState(User);
@@ -37,7 +37,7 @@ function Login() {
                 sessionStorage.setItem(User.userID, result.id);
                 sessionStorage.setItem(User.accessToken, result.accessToken);
                 sessionStorage.setItem(User.refreshToken, result.refreshToken)
-                navigateToMain();
+                navigateToLandingPage();
             }
             else{
                 window.alert("Couldn't log you in")

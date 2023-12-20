@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 function Register() {
 
     const navigator = useNavigate();
-    const navigateToMain = () => {
+    const navigateToLandingPage= () => {
       navigator("/");
     };
     const [email, setEmail] = useState(User);
@@ -42,7 +42,7 @@ function Register() {
             if (result !== null){
                 sessionStorage.setItem(User.userEmail, email);
                 sessionStorage.setItem(User.userID, result.id);
-                navigateToMain();
+                navigateToLandingPage();
             }
             else{
                 window.alert("Registration was not succesfull")

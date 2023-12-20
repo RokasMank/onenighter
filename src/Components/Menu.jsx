@@ -16,7 +16,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../User/User';
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Logout'];
 
 function AppMenu() {
   sessionStorage.getItem(User.userEmail)
@@ -30,6 +30,39 @@ function AppMenu() {
     setAnchorElUser(event.currentTarget);
   };
 
+  const handleHomeClick = () =>{
+    handleCloseNavMenu()
+    navigateToLandingPage();
+  } 
+
+  const handleProfileClick = () =>{
+    handleCloseUserMenu()
+    navigateToProfile();
+  } 
+  const handleLogoutClick = () =>{
+    
+      handleCloseUserMenu()
+      sessionStorage.clear()
+      navigateToLandingPage()
+
+  }
+  
+  const handleChatsClick = () =>{
+    handleCloseNavMenu()
+    navigateToChatPage();
+  } 
+  const handleGroupClick = () =>{
+    handleCloseNavMenu()
+    navigateToChatPage();
+  } 
+  const handleRegisterClick = () =>{
+    handleCloseNavMenu()
+    navigateToRegister();
+  } 
+  const handleLoginClick = () =>{
+    handleCloseNavMenu()
+    navigateToLogin();
+  } 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
@@ -42,8 +75,8 @@ function AppMenu() {
   const navigateToLandingPage = () => {
     navigator("/");
   };
-  const navigateToMain = () => {
-    navigator("/main");
+  const navigateToProfile = () => {
+    navigator("/profile");
   };
   const navigateToChatPage = () => {
     navigator("/group");
@@ -53,26 +86,6 @@ function AppMenu() {
   };
   const navigateToLogin = () => {
     navigator("/login");
-  };
-  const navigateToCategories = () => {
-    navigator("admin/categories");
-  };
-
-  const navigateToUsers = () => {
-    navigator("admin/users");
-  };
-
-  const navigateToProfile = () => {
-    navigator("/profile");
-  };
-  const navigateToStatistics = () => {
-    navigator("/statistics");
-  };
-  const navigateToGivableProducts = () => {
-    navigator("/product/giveaway");
-  };
-  const navigateToRecipes = () => {
-    navigator("/recipes");
   };
 
   return (
@@ -127,12 +140,27 @@ function AppMenu() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem key={"Home"} onClick={handleCloseNavMenu}>
+              <MenuItem key={"Home"} onClick={handleHomeClick}>
                   <Typography textAlign="center">{"Home"}</Typography>
                 </MenuItem>
-                <MenuItem key={"Chats"} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{"Chats"}</Typography>
+                {sessionStorage.getItem(User.userEmail) === null 
+             ? 
+             <MenuItem key={"Register"} onClick={handleRegisterClick}>
+             <Typography textAlign="center">{"Register"}</Typography>
+           </MenuItem>
+            :<></>}
+             {sessionStorage.getItem(User.userEmail) === null 
+             ? 
+             <MenuItem key={"Login"} onClick={handleLoginClick}>
+             <Typography textAlign="center">{"Login"}</Typography>
+           </MenuItem>
+            :<></>}
+             {sessionStorage.getItem(User.userEmail) !== null 
+             ? 
+             <MenuItem key={"Groups"} onClick={navigateToChatPage}>
+                  <Typography textAlign="center">{"Groups"}</Typography>
                 </MenuItem>
+            :<></>}
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
@@ -155,7 +183,6 @@ function AppMenu() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {}
               <Button
                 key={"Home"}
                 onClick={navigateToLandingPage}
@@ -197,11 +224,12 @@ function AppMenu() {
               : <></>
               }
           </Box>
-
+          {sessionStorage.getItem(User.userEmail) !== null 
+             ?   
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={sessionStorage.getItem(User.userEmail)} src="%PUBLIC_URL%/images/astronaut.png" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -220,13 +248,15 @@ function AppMenu() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+              <MenuItem key={'Profile'} onClick={handleProfileClick}>
+                  <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-              ))}
+              <MenuItem key={'Logout'} onClick={handleLogoutClick}>
+                  <Typography textAlign="center">Logout</Typography>
+              </MenuItem>
             </Menu>
           </Box>
+          : <></>}
         </Toolbar>
       </Container>
     </AppBar>

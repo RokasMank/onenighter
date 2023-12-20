@@ -1,67 +1,74 @@
 import React from 'react';
 import { Container, Typography, Button, useTheme, useMediaQuery, Box, Paper } from '@mui/material';
 import { Link } from 'react-router-dom';
-
+import { User } from '../User/User';
 const LandingPage = () => {
+  const backgroundImageUrl = '/images/pikb29.jpg';
+
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImageUrl})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    color: 'white', // Set text color to contrast with the background
+  };
+
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg'));
 
   return (
-    <Container style={{ height: '100vh' }}>
+    <Box sx={backgroundStyle}>
+      <Container>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          height="100%"
+          overflowY="hidden"
+        >
+          {sessionStorage.getItem(User.userEmail) === null ? 
+           <Button
+           variant="contained"
+           color="primary"
 
-      <Paper
-        elevation={3}
-        style={{
-          width: '100%',
-          marginTop: '30px',
-          paddingTop: '40px',
-          backgroundColor: theme.palette.primary.main,
-          color: '#fff',
-        }}
-      >
-      </Paper>
-
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        height="100%"
-        overflowY="hidden"
-      >
-        <Typography variant={isLargeScreen ? 'h5' : 'body1'} align="center" paragraph>
-          Explore amazing features and connect with others!
+           component={Link}
+           to="/login"
+           style={{ marginTop: '20px', padding:'2rem' ,textDecoration: 'none' }}
+           sx={{ fontSize: '1.2rem' }}
+         >
+           Get Started
+         </Button>
+          : 
+            <Paper
+            elevation={3}
+            style={{
+              width: '80%',
+              padding: '20px',
+              marginTop: '30px',
+              textAlign: 'center',
+            }}
+          >
+          <Typography
+          variant={isLargeScreen ? 'h5' : 'body1'}
+          align="center"
+          paragraph
+          sx={{ color: 'black', fontSize: '2rem' }} // Use a light gray color
+        >
+          New features are comming!
         </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/login"
-          style={{ marginTop: '20px', textDecoration: 'none' }}
-        >
-          Get Started
-        </Button>
 
-        {/* Text box about the app */}
-        <Paper
-          elevation={3}
-          style={{
-            width: '80%',
-            padding: '20px',
-            marginTop: '30px',
-            textAlign: 'center',
-          }}
-        >
-          <Typography variant="h6" gutterBottom>
-            About oneNighter
-          </Typography>
-          <Typography variant="body1">
-            Create groups, decide where to go out, and more! Connect with others and make your
-            experiences memorable.
-          </Typography>
-        </Paper>
-      </Box>
-    </Container>
+          </Paper> }
+
+         
+        </Box>
+      </Container>
+    </Box>
   );
 };
 
