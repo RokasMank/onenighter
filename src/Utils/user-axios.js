@@ -1,8 +1,14 @@
 import axios from "axios";
 import { baseUrl } from "./baseUrl";
+import { User } from "../User/User";
 
+const token = sessionStorage.getItem(User.accessToken)
+console.log(token)
 const client = axios.create({
-  baseURL: `${baseUrl()}User`
+  baseURL: `${baseUrl()}User`,
+  headers: {
+    "Authorization": `Bearer ${token}`
+  }
 });
 
 export const loginUser = async (body) => {
@@ -34,3 +40,13 @@ export const getUsers = async () => {
     return null;
   }
 };
+
+export const updateUserProfile = async (body) =>{
+  try {
+    const response = await client.patch(``, { ...body });
+    return response.data;
+  } catch (err) {
+    console.log(err.message);
+    return null;
+  }
+}

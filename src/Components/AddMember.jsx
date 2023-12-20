@@ -15,7 +15,7 @@ import {
   ListItemText,
   Chip,
 } from "@mui/material";
-import { getUsers } from "../Utils/user-axios-utils";
+import { getUsers } from "../Utils/user-axios";
 import groupClient from "../Utils/group-axios";
 import { User } from "../User/User";
 

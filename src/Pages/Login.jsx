@@ -1,7 +1,7 @@
 import "../Styles/Register.css"
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import {loginUser, registerUser} from "../Utils/user-axios-utils"
+import {loginUser} from "../Utils/user-axios"
 import { User } from "../User/User";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -37,6 +37,8 @@ function Login() {
                 sessionStorage.setItem(User.userID, result.id);
                 sessionStorage.setItem(User.accessToken, result.accessToken);
                 sessionStorage.setItem(User.refreshToken, result.refreshToken)
+                sessionStorage.setItem(User.userName, result.name);
+                sessionStorage.setItem(User.userLastname, result.lastname);
                 navigateToLandingPage();
             }
             else{

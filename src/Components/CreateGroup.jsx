@@ -16,7 +16,7 @@ import {
   Chip,
 } from "@mui/material";
 import { getThemes } from "../Utils/theme-axios";
-import { getUsers } from "../Utils/user-axios-utils";
+import { getUsers } from "../Utils/user-axios";
 import groupClient from "../Utils/group-axios";
 import { User } from "../User/User";
 

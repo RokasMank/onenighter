@@ -1,7 +1,7 @@
 import "../Styles/Register.css"
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import {registerUser} from "../Utils/user-axios-utils"
+import {registerUser} from "../Utils/user-axios"
 import { User } from "../User/User";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -42,6 +42,8 @@ function Register() {
             if (result !== null){
                 sessionStorage.setItem(User.userEmail, email);
                 sessionStorage.setItem(User.userID, result.id);
+                sessionStorage.setItem(User.userName, name);
+                sessionStorage.setItem(User.userLastname, lastname);
                 navigateToLandingPage();
             }
             else{

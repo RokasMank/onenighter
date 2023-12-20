@@ -180,7 +180,7 @@ function AppMenu() {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            oneNighter
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               <Button
@@ -229,7 +229,7 @@ function AppMenu() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={sessionStorage.getItem(User.userEmail)} src="%PUBLIC_URL%/images/astronaut.png" />
+                <Avatar alt={sessionStorage.getItem(User.userEmail)} src="/images/astronaut.png" />
               </IconButton>
             </Tooltip>
             <Menu
