@@ -9,7 +9,7 @@ import {
   Avatar,
 } from '@mui/material';
 import { useTheme, useMediaQuery } from '@mui/material';
-import { updateUserProfile } from '../Utils/user-axios'; 
+import { updateUserProfile } from '../Utils/user-axios';
 import { User } from '../User/User';
 
 const Profile = () => {
@@ -20,7 +20,7 @@ const Profile = () => {
     id: sessionStorage.getItem(User.userID),
     name: sessionStorage.getItem(User.userName),
     lastName: sessionStorage.getItem(User.userLastname),
-    email: sessionStorage.getItem(User.userEmail)
+    email: sessionStorage.getItem(User.userEmail),
   });
 
   const handleInputChange = (field, value) => {
@@ -32,12 +32,20 @@ const Profile = () => {
 
   const handleSaveChanges = async () => {
     try {
+      // Validate that required fields are not empty before submitting
+      if (!userProfile.name || !userProfile.lastName || !userProfile.email) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
       // Call your API function to update the user profile
       await updateUserProfile(userProfile);
+
       // Optionally, you can update sessionStorage with the new profile information
       sessionStorage.setItem(User.userName, userProfile.name);
       sessionStorage.setItem(User.userLastname, userProfile.lastName);
       sessionStorage.setItem(User.userEmail, userProfile.email);
+
       // Optionally, you can show a success message or navigate the user to another page
       console.log('Profile updated successfully!');
     } catch (error) {
@@ -48,13 +56,12 @@ const Profile = () => {
   useEffect(() => {
     // Fetch user profile from sessionStorage when the component mounts
     const storedUserProfile = {
-        id: sessionStorage.getItem(User.userID),
-        name: sessionStorage.getItem(User.userName),
-        lastName: sessionStorage.getItem(User.userLastname),
-        email: sessionStorage.getItem(User.userEmail)
+      id: sessionStorage.getItem(User.userID),
+      name: sessionStorage.getItem(User.userName),
+      lastName: sessionStorage.getItem(User.userLastname),
+      email: sessionStorage.getItem(User.userEmail),
     };
     setUserProfile(storedUserProfile);
-    console.log(userProfile)
   }, []);
 
   return (
@@ -93,6 +100,7 @@ const Profile = () => {
             value={userProfile.name}
             onChange={(e) => handleInputChange('name', e.target.value)}
             style={{ marginBottom: '20px' }}
+            required
           />
 
           <TextField
@@ -102,6 +110,7 @@ const Profile = () => {
             value={userProfile.lastName}
             onChange={(e) => handleInputChange('lastName', e.target.value)}
             style={{ marginBottom: '20px' }}
+            required
           />
 
           <TextField
@@ -111,6 +120,7 @@ const Profile = () => {
             value={userProfile.email}
             onChange={(e) => handleInputChange('email', e.target.value)}
             style={{ marginBottom: '20px' }}
+            required
           />
 
           <Button
